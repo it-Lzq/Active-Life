@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head >
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Active Life</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../../static/css/animate.css" rel="stylesheet" th:href="@{/css/animate.css}">
+    <link href="../../static/css/index2.css" th:href="@{/css/index2.css}" rel="stylesheet">
+
+</head>
+
+<body>
+<!-- 导航 -->
+<nav class="ui inverted segment attached my-padding-tb"  >
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🥋疫情监控
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="index.html" th:href="@{/}"> 国内疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="world.html" th:href="@{/world}"> 国外疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="rumor.html" th:href="@{/toRumor(page=1)}"> 警觉谣言</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🎉丰富生活
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html"  th:href="@{/life(page=1)}"> 增加厨艺</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/toyl(page=1)}">新闻资讯</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    📖高效学习
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html" th:href="@{/bj/index}"> 在线笔记</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/study}"> 在线学习</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 汉堡 -->
+    <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+</nav>
+
+<!-- 中间部分 -->
+<div class="bg">
+    <table></table>
+    <div class="shadow">
+        <ul>
+            <li class="  animated fadeInLeft" id="blbl">
+                <a href="http://www.bilibili.com/">
+                    <img src="../../static/img/study/blbl.png" alt="" th:src="@{/img/study/blbl.png}" title="huanyinglaidaowangzhan ">
+                </a>
+            </li>
+            <li  class="top animated fadeInDown" id="shiyanlou"><a href="http://www.shiyanlou.com"><img th:src="@{/img/study/shiyanlou.png}" src="../../static/img/study/shiyanlou.png" alt=""></a></li>
+            <li class="top  animated fadeInDown" id="xuexitong"><a href="http://www.xuexi365.com/"><img th:src="@{/img/study/xuexitong.png}" src="../../static/img/study/xuexitong.png" alt=""></a></li>
+            <li class=" animated fadeInRight" id="mukewang"><a href="http://www.imooc.com"><img th:src="@{/img/study/mukewang.png}" src="../../static/img/study/mukewang.png" alt=""></a></li>
+        </ul>
+        <ul>
+            <li class="  animated fadeInLeft" id="tengxun"><a href="http://ke.qq.com/"><img th:src="@{/img/study/tengxun.png}" src="../../static/img/study/tengxun.png" alt=""></a></li>
+            <li class="down animated fadeInUp" id="wangyiyun"><a href="http://study.163.com/"><img th:src="@{/img/study/wangyiyun.png}" src="../../static/img/study/wangyiyun.png" alt=""></a></li>
+            <li class="down animated fadeInUp" id="MOOC"><a href="http://mooc.guokr.com/"><img th:src="@{/img/study/MOOC.png}" src="../../static/img/study/MOOC.png" alt=""></a></li>
+            <li class="  animated fadeInUp" id="zhihuishu"><a href="http://www.zhihuishu.com/"><img th:src="@{/img/study/zhihuishu.png}" src="../../static/img/study/zhihuishu.png" alt=""></a></li>
+        </ul>
+    </div>
+</div>
+<!-- 底部 -->
+<footer class="ui inverted vertical segment my-padding-shuxian  " >
+    <div class="ui center aligned container">
+        <div class="ui inverted divided grid stackable">
+            <div class="four wide  column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="width: 60%;">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">学校</h4>
+                <div class="ui inverted link list">
+                    <a class="item" href="">>---运城学院---<</a>
+                    <a class="item" href="">>---数学与信息技术学院---<</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                <div class="ui inverted link list">
+                    <span class="item" href="">phone:15034344690</span>
+                    <span class="item" href="">QQ:905866484</span>
+                    <span class="item" href="">email:905866484@qq.com</span>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                <div class="ui inverted link list">
+                    <span class="item">------------------------</span>
+                    <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                    <span class="item">------------------------</span>
+                </div>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+        <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+    </div>
+
+</footer>
+<script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script src="../../static/js/jhbg.js" th:src="@{/js/jhbg.js}"> </script>
+<script th:inline="javascript">
+    $("#toggle-menu").click(function() {
+        $('.c-item').toggleClass('my-mobile-hide');
+    });
+    $('.ui.dropdown.item')
+        .dropdown({
+            on: 'hover'
+        });
+
+    $('#blbl')
+        .popup({
+            position : 'left center',
+            title    : '哔哩哔哩',
+            content  : '众所周知，哔哩哔哩是一个学习网站😬'
+        });
+    $('#tengxun')
+        .popup({
+            position : 'left center',
+            title    : '腾讯课堂',
+            content  : '这里有很多免费的课程供大家学习，很不错哦😋'
+        });
+    $('#shiyanlou')
+        .popup({
+            title    : '实验楼',
+            content  : '在线学实验，高效学编程😏'
+        });
+    $('#wangyiyun')
+        .popup({
+
+            title    : '网易云课堂',
+            content  : '专注职业技能提升的学习平台🤭'
+        });
+    $('#xuexitong')
+        .popup({
+            title    : '学习通',
+            content  : '相信大家上网课都离不开它🤗'
+        });
+    $('#MOOC')
+        .popup({
+            title    : '中国大学Mooc',
+            content  : '好的大学没有围墙😂'
+        });
+    $('#mukewang')
+        .popup({
+            position : 'right center',
+            title    : '慕课网',
+            content  : '这里是程序员的梦工厂🤓'
+        });
+    $('#zhihuishu')
+        .popup({
+            position : 'right center',
+            title    : '智慧树',
+            content  : '大学生网课学习必备😭'
+        });
+</script>
+</body>
+
+</html>

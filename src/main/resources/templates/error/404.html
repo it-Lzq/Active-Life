@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Active Life 404</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../../static/css/index.css" rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+
+<nav class="ui inverted segment attached my-padding-tb" >
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🥋疫情监控
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="index.html" th:href="@{/}"> 国内疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="world.html" th:href="@{/world}"> 国外疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="rumor.html" th:href="@{/toRumor(page=1)}"> 警觉谣言</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🎉丰富生活
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html"  th:href="@{/life(page=1)}"> 增加厨艺</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/toyl(page=1)}">新闻资讯</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    📖高效学习
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html" th:href="@{/bj/index}"> 在线笔记</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/study}"> 在线学习</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- 汉堡 -->
+    <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+</nav>
+<br><br><br><br><br>+
+<div class="ui container">
+    <div class="ui error message">
+        <br><br>
+        <h1>404</h1>
+        <p>对不起，您访问的页面资源不存在！</p>
+        <a href="../yiqing/index.html" th:href="@{/}">返回首页</a>
+        <br><br>
+    </div>
+</div>
+<br><br><br><br><br>
+<!-- 底部 -->
+<footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small " >
+    <div class="ui center aligned container">
+        <div class="ui inverted divided grid stackable">
+            <div class="four wide  column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">学校</h4>
+                <div class="ui inverted link list">
+                    <a class="item" href="">>---运城学院---<</a>
+                    <a class="item" href="">>---数学与信息技术学院---<</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                <div class="ui inverted link list">
+                    <span class="item" href="">phone:15034344690</span>
+                    <span class="item" href="">QQ:905866484</span>
+                    <span class="item" href="">email:905866484@qq.com</span>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                <div class="ui inverted link list">
+                    <span class="item">------------------------</span>
+                    <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                    <span class="item">------------------------</span>
+                </div>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+        <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+    </div>
+
+</footer>
+    <script src="../../static/js/jquery-2.1.0.min.js" th:src="@{/js/jquery-2.1.0.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script>
+    $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+    $("#toggle-menu").click(function() {
+        $('.c-item').toggleClass('my-mobile-hide');
+    });
+    $('.ui.dropdown')
+        .dropdown({
+            on: 'hover'
+        });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head >
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>笔记中心</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/layui.css" th:href="@{/css/layui.css}">
+    <canvas height="990" id="c_n9" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;" width="1920"></canvas>
+</head>
+
+<body>
+<!-- 导航 -->
+<nav class="ui inverted segment attached my-padding-tb" >
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">Active Life</h2>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🥋疫情监控
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="index.html" th:href="@{/}"> 国内疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="world.html" th:href="@{/world}"> 国外疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="rumor.html" th:href="@{/toRumor(page=1)}"> 警觉谣言</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🎉丰富生活
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html"  th:href="@{/life(page=1)}"> 增加厨艺</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/toyl(page=1)}">新闻资讯</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    👺高效学习
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html" th:href="@{/bj/index}"> 在线笔记</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/study}"> 在线学习</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 汉堡 -->
+    <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+</nav>
+<br>
+<br><br><br><br><br>
+
+<!-- 中间内容 -->
+<div class="my-container centered ">
+    <div class="ui container " style="width: 50%">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <div class="content">
+                        个人笔记登录
+                    </div>
+                </h2>
+
+                <form class="ui large form" method="post" th:action="@{/bj/login}">
+                    <div class="ui stacked segment">
+
+                        <br>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input name="phone" placeholder="Phone" type="text">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input name="password" placeholder="Password" type="password">
+                            </div>
+                        </div>
+                        <button class="ui inverted green submit button" type="submit">登录</button>
+                        <a class="ui inverted blue button" th:href="@{/toReg}">注册</a>
+                        <div class="ui error message mini"></div>
+                    </div>
+                </form>
+                <br>
+                <button class="ui animated button inverted violet face hide-phone" onclick="face()" >
+                    <div class="visible content"> <i class="right arrow icon"></i></div>
+                    <div class="hidden  content">
+                        人脸登录
+                    </div>
+                </button>
+
+                <div class="ui negative mini message" th:text="${message}" th:unless="${#strings.isEmpty(message)}"></div>
+
+                <div class="ui modal tiny face"  >
+                    <i class="close icon"></i>
+                    <div class="header">
+                        刷脸登录
+                    </div>
+                    <div class="image content">
+                        <video id="v" width="100%" height="100%" autoplay></video>
+                        <canvas hidden="hidden" id="canvas" width="500" height="400"></canvas>
+                    </div>
+                    <div class="actions">
+                        <button type="button" id="snap" class=" ui inverted green  button  camera-btn">检测登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br><br><br><br><br>
+
+<!-- 底部 -->
+<footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small "  >
+    <div class="ui center aligned container">
+        <div class="ui inverted divided grid stackable">
+            <div class="four wide  column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">学校</h4>
+                <div class="ui inverted link list">
+                    <a class="item" href="">>---运城学院---<</a>
+                    <a class="item" href="">>---数学与信息技术学院---<</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                <div class="ui inverted link list">
+                    <span class="item" href="">phone:15034344690</span>
+                    <span class="item" href="">QQ:905866484</span>
+                    <span class="item" href="">email:905866484@qq.com</span>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                <div class="ui inverted link list">
+                    <span class="item">------------------------</span>
+                    <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                    <span class="item">------------------------</span>
+                </div>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+        <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+    </div>
+
+</footer>
+<script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script type="text/javascript" rel="stylesheet" src="../static/js/layer/layer.js" th:src="@{/js/layer/layer.js}"></script>
+<script type="text/javascript" rel="stylesheet" src="../static/js/layui.js" th:src="@{/js/layui.js}"></script>
+<script src="../static/js/camvas.js" th:src="@{/js/camvas.js}"></script>
+<script src="../static/js/jhbg.js" th:src="@{/js/jhbg.js}"> </script>
+<script  type="text/javascript">
+
+    $("#toggle-menu").click(function() {
+        $('.c-item').toggleClass('my-mobile-hide');
+    });
+    $('.ui.dropdown')
+        .dropdown({
+            on: 'hover'
+        });
+
+    $('.ui.form').form({
+        fields: {
+            phone: {
+                indentifier: 'phone',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入手机号'
+                }]
+            },
+            password: {
+                indentifier: 'password',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入密码'
+                }]
+            }
+        }
+    })
+    var myCamvas;
+
+    var scale = 120; //宽高比例倍数
+    var config;
+    function face(){
+        $('.ui.modal')
+            .modal('show');
+
+        //init
+
+        config = {
+            video: {
+                width: Number(scale * 4),
+                height: Number(scale * 3)
+            }, //4:3
+            canvasId: 'canvas',
+            videoId: 'v',
+            imgType: 'png',
+            quality: '1' //图片质量0-1之间
+        };
+        $('.camera-show-pc').css('width', config.video.width * 2 + 20);
+        $('#canvas').attr('width', config.video.width);
+        $('#canvas').attr('height', config.video.height);
+        //拍照实例化
+        myCamvas = new camvas(config);
+        myCamvas.startCamera();
+
+    }
+
+    $('#snap').click(function() {
+        myCamvas.drawImage(function drawImage(base64URL) {
+            var img = base64URL.substring(22);
+            $.ajax({
+                type : "POST",
+                async : false,
+                url : "/searchFace",
+                data : {
+                    img : img
+                },
+                success : function(data) {
+                    //返回的结果
+                    layer.closeAll();
+                    console.log(data)
+                    if(data.status == 200){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                            window.location.href="/bj/notes";
+                        },1000);
+                    }else{
+                        layer.msg(data.msg);
+
+                    }
+                }
+            });
+            var xsCamera = $('<div></div>').addClass('camera-canvas-item');
+            xsCamera.append($('<img>').attr('src', base64URL)).append($('<span></span>').addClass('layui-icon layui-icon-close-circle-fill canvas-item-del'));
+            $('.camera-canvas-group').prepend(xsCamera);
+        });
+    })
+
+
+</script>
+
+
+</body>
+
+</html>

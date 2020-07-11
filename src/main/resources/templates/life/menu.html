@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head >
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Active Life</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- 导航 -->
+    <nav class="ui inverted segment attached my-padding-tb"  >
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        🥋疫情监控
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="index.html" th:href="@{/}"> 国内疫情</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="world.html" th:href="@{/world}"> 国外疫情</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="rumor.html" th:href="@{/toRumor(page=1)}"> 警觉谣言</a>
+                    </div>
+                </div>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        🎉丰富生活
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html"  th:href="@{/life(page=1)}"> 增加厨艺</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/toyl(page=1)}">新闻资讯</a>
+                    </div>
+                </div>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        📖高效学习
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html" th:href="@{/bj/index}"> 在线笔记</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/study}"> 在线学习</a>
+                    </div>
+                </div>
+
+                <div class="right c-item item my-mobile-hide ">
+                    <form action="/menu" method="post" name="search" th:action="@{/menu}">
+                        <div class="ui icon input">
+                            <input name="name" placeholder="请输入菜单名"   type="text">
+                            <input name="page" type="hidden" value="1">
+                            <i class="search link icon"  type="submit"></i>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <!-- 汉堡 -->
+        <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+    </nav>
+    <br>
+    <br>
+    <!-- 中间部分 -->
+        <div class="my-container centered animated fadeIn" id="waypoint">
+            <div class="ui container">
+                <!-- 头 -->
+                <div class="ui top attached segment">
+                    <div class="ui middle aligned two column grid">
+                        <div class="column">
+                            <h3 class="ui teal header" style="font-size: 24px;">搜索结果</h3>
+                        </div>
+                        <div class="column right aligned">
+                            <h2 class="ui orange header my-inline-block" th:text="${word}">鸡</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- 内容 -->
+                <div class="ui attached  " style="background-color: ghostwhite;">
+                    <div class="ui segment"  th:each="menu :${menuList}" style="padding-top: 20px;padding-bottom: 20px;margin-top: 10px">
+                        <div class="ui grid stackable mobile reversed ">
+
+                            <div class="ui middle aligned animated list">
+                                <h3 class="header">
+                                    <a style="font-size: 1.2em" th:text="${menu.getCp_name()}"> 金钩黄瓜条</a>
+                                    <a th:id='${menu.getTexing()!= ""}' th:text="${menu.getTexing()}" class="ui orange label left pointing my-margin-top-ssmall ">
+                                        色泽鲜艳，咸香爽口</a>
+                                </h3>
+
+                                <div class="item">
+                                    <div class="content">
+                                        <div class="header" th:text='${"原料："+menu.getYuanliao()}'>黄瓜300克；海米10克；香葱1棵</div>
+                                    </div>
+                                </div>
+                                <div class="item" th:if='${menu.getTiaoliao()!=""}'>
+                                    <div class="content">
+                                        <div class="header" th:text='${"调料:"+menu.getTiaoliao()}'>食用油25克；香油1小匙(3克)；精盐2小匙(6克)；味精1/2小匙(1.5克)</div>
+                                    </div>
+                                </div>
+                                <div class="item" th:if='${menu.getTishi()!=""}'>
+                                    <div class="content">
+                                        <div class="header" th:text='${"提示:"+menu.getTishi()}'>腌黄瓜时不能加太多的盐，否则黄瓜不脆嫩。</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="content">
+                                        <span class="header" th:text='${"步骤:"+menu.getZuofa()}'>腌黄瓜时不能加太多的盐，否则黄瓜不脆嫩。</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 文章底部 -->
+                <div class="ui  segment " >
+                    <div class="ui middle aligned two column grid">
+                        <div class="column left aligned">
+                            <a class="ui mini  button primary"  href="#"  th:href="@{/menu(page=${page}-1,name=${word})}" th:if="${page}>1">上一页</a>
+                        </div>
+                        <div class="column right aligned">
+                            <a class="ui mini  button primary" href="#" th:href="@{/menu(page=${page}+1,name=${word})}" >下一页</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <br><br>
+        <!-- 底部 -->
+        <footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small " >
+            <div class="ui center aligned container">
+                <div class="ui inverted divided grid stackable">
+                    <div class="four wide  column">
+                        <div class="ui inverted link list">
+                            <div class="item">
+                                <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="four wide column">
+                        <h4 class="ui inverted header my-opacity-font">学校</h4>
+                        <div class="ui inverted link list">
+                            <a class="item" href="">>---运城学院---<</a>
+                            <a class="item" href="">>---数学与信息技术学院---<</a>
+                        </div>
+                    </div>
+                    <div class="four wide column">
+                        <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                        <div class="ui inverted link list">
+                            <span class="item" href="">phone:15034344690</span>
+                            <span class="item" href="">QQ:905866484</span>
+                            <span class="item" href="">email:905866484@qq.com</span>
+                        </div>
+                    </div>
+                    <div class="four wide column">
+                        <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                        <div class="ui inverted link list">
+                            <span class="item">------------------------</span>
+                            <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                            <span class="item">------------------------</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui inverted section divider"></div>
+                <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+                <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+            </div>
+
+        </footer>
+        <script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+        <script th:inline="javascript">
+            $("#toggle-menu").click(function() {
+                $('.c-item').toggleClass('my-mobile-hide');
+            });
+            $('.ui.button.icon.circular')
+                .popup({
+
+                });
+            $('.ui.dropdown.item')
+                .dropdown({
+                    on: 'hover'
+                });
+
+
+
+
+
+
+        </script>
+</body>
+
+</html>

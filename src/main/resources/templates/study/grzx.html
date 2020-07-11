@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head >
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>AL Note </title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../../static/lib/editormd/css/editormd.css" th:href="@{/lib/editormd/css/editormd.css}" rel="stylesheet" >
+    <link href="../../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 导航 -->
+    <nav class="ui inverted segment  attached my-padding-tb" >
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="note_index.html" th:href="@{/bj/note-index}">💎首页</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteClass.html" th:href="@{/bj/type/-1}">🎉分类</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteTag.html" th:href="@{/bj/tag/-1}">👣标签</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteHome.html" th:href="@{/bj/home}">🎐归档</a>
+                <div class="right c-item item my-mobile-hide ">
+                    <div class="ui dropdown item  my-mobile-hide c-item ">
+                        <div class="text">
+                            <span th:text="${session.user.nickname}">李泽庆</span>
+                        </div>
+                        <i class="icon dropdown"></i>
+                        <div class="menu">
+                            <a class="item" href="NoteManager.html" th:href="@{/bj/notes}">🤪我的控制台</a>
+                            <a class="item" href="../login.html" th:href="@{/bj/exit}">😭退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 汉堡 -->
+        <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+    </nav>
+    <div class="ui attached menu pointing">
+        <div class=" ui  container">
+            <div class="right menu " >
+                <a  class="item active" href="#"  style="font-weight: bold"  th:href="@{#}">个人中心</a>
+                <a  class="item " href="NoteManager.html" th:href="@{/bj/notes}">笔记列表</a>
+                <a  class="item" href="#" th:href="@{/bj/types}">分类</a>
+                <a  class="item " href="#"   th:href="@{/bj/tags}">标签</a>
+                <a class="item " href="#"  th:href="@{/bj/noteRelease}">发布</a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <input type="hidden" id="userid" th:value="${session.user.id}">
+    <!-- 中间内容 -->
+    <div class="my-container centered">
+        <div class="ui container">
+            <div class="ui teal  inverted stackable segment">
+             <div class="ui segment teal">
+                <div class="ui items ">
+                    <div class="item">
+                        <div class="ui small image">
+                            <label class="ui teal label" >昵称</label>
+                        </div>
+                        <div class=" middle aligned content ">
+                            <a class="header nickname" th:text="${session.user.nickname}">李泽庆</a>
+                        </div>
+                        <div style="width: 60%;text-align: right">
+                            <button class="ui mini button"  onclick="upNickname()">修改</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="ui small image">
+                             <label class="ui teal label">手机号</label>
+                        </div>
+                        <div class="middle aligned content">
+                            <a class="header"  th:text="${session.user.phone}">15034344690</a>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="ui small image">
+                            <label class="ui teal label" >密码</label>
+                        </div>
+                        <div class="middle aligned content">
+                            <a class="header">********</a>
+                        </div>
+                        <div style="width: 60%;text-align:right">
+                        <button class="ui mini button" onclick="upPassword()">修改</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="ui small image">
+                            <label class="ui teal label" >是否开启人脸登录</label>
+                        </div>
+                        <div class="middle aligned content">
+                            <a class="header" th:text="${session.user.face?'✔':'❌'}">❌</a>
+                        </div>
+                        <div style="width: 60%;text-align:right">
+                        <button class="ui mini button" onclick="startFace()" th:text="${session.user.face?'修改':'开启'}">开启</button>
+                        </div>
+                    </div>
+                </div>
+             </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--修改昵称-->
+    <div class="ui modal tiny nickname">
+        <i class="close icon"></i>
+        <div class="header">
+            修改昵称
+        </div>
+        <div class="image content ui input">
+            <input type="text" name="nickname" id="nickname" placeholder="请输入修改后的昵称">
+        </div>
+        <div class="actions">
+            <button class="ui inverted green  button" onclick="updateName()">
+                修改
+            </button>
+        </div>
+    </div>
+
+
+    <!--修改密码-->
+    <div class="ui modal tiny password">
+        <i class="close icon"></i>
+        <div class="header">
+            修改密码
+        </div>
+        <div class="image content ui input">
+            <input type="hidden" name="passwordOld" id="passwordOld" th:value="${session.user.password}">
+            <input type="text" name="password" id="password" placeholder="请输入原始密码">
+            <div class="ui horizontal divider">-></div>
+            <input type="text" name="passwordNew" id="passwordNew" placeholder="请输入新密码">
+        </div>
+        <div class="actions">
+            <button class="ui inverted green button" onclick="updatePass()">
+                修改
+            </button>
+        </div>
+    </div>
+    <!--开启人脸登录-->
+    <div class="ui modal tiny face">
+        <i class="close icon"></i>
+        <div class="header">
+            请上传你的面部照片
+        </div>
+        <div class="image content ui input">
+            <!-- 图片文本框 -->
+            <input type="file" class="form-control" id="file" name="file"  onchange="preview(this)">
+            <!-- 这个是在上传之前回显图片图片展示 -->
+            <div id="preview">
+                　　<!--这个是为了将页面返回的图片展示出来的.默认隐藏-->
+                　　<img style="width: 100px; height: 100px;display:none" id="imgHidden" />
+            </div>
+        </div>
+        <div class="actions">
+            <button class="ui inverted green button" onclick="updateFace()">
+                提交
+            </button>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small " >
+        <div class="ui center aligned container">
+            <div class="ui inverted divided grid stackable">
+                <div class="four wide  column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                        </div>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">学校</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="">>---运城学院---<</a>
+                        <a class="item" href="">>---数学与信息技术学院---<</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                    <div class="ui inverted link list">
+                        <span class="item" href="">phone:15034344690</span>
+                        <span class="item" href="">QQ:905866484</span>
+                        <span class="item" href="">email:905866484@qq.com</span>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                    <div class="ui inverted link list">
+                        <span class="item">------------------------</span>
+                        <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                        <span class="item">------------------------</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+            <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+        </div>
+
+    </footer>
+<!--    <script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>-->
+    <script src="../../static/js/jquery-2.1.0.min.js" th:src="@{/js/jquery-2.1.0.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="../../static/js/jhbg.js" th:src="@{/js/jhbg.js}"> </script>
+    <script src="../../static/js/layer/layer.js" th:src="@{/js/layer/layer.js}"></script>
+    <script>
+        var $user = document.getElementById("userid");
+        var userid = $user.value;
+
+        $("#toggle-menu").click(function() {
+            $('.c-item').toggleClass('my-mobile-hide');
+        });
+        $('.ui.dropdown')
+            .dropdown({
+                on: 'hover'
+            });
+        $('.ui.form').form({
+                fields: {
+                    title: {
+                        indentifier: 'title',
+                        rules: [{
+                            type: 'empty',
+                            prompt: '请输入博客标题'
+                        }]
+                    }
+                }
+            });
+        function upNickname() {
+            $('.ui.tiny.modal.nickname').modal('show');
+        }
+        function upPassword() {
+            $('.ui.tiny.modal.password').modal('show');
+        }
+        function startFace() {
+            $('.ui.tiny.modal.face').modal('show');
+        }
+
+        function updateName() {
+            var nickname = document.getElementById("nickname");
+            if(nickname.value == ""){
+                layer.msg("请输入昵称");return;
+            }
+            $.ajax({
+                type : "POST",
+                async : false,
+                url : "/bj/updateNickname",
+                data : {
+                    nickname : nickname.value,
+                    id : userid
+                },
+                success : function(data) {
+                    //返回的结果
+                    console.log(data);
+                    $('.ui.tiny.modal.nickname').modal('hide');
+                    window.location.reload(true);
+                }
+            });
+        }
+
+        function updatePass() {
+            var $pass = document.getElementById("password");
+            var $new = document.getElementById("passwordNew");
+            if($pass.value == ""){layer.msg("请输入旧密码");return;}
+            if($new.value == ""){layer.msg("请输入新密码");return;}
+            $.ajax({
+                type : "POST",
+                async : false,
+                url : "/bj/updatePassword",
+                data : {
+                    id : userid,
+                    newPass: $new.value,
+                    oldPass: $pass.value
+                },
+                success : function(data) {
+                    //返回的结果
+                    console.log(data);
+                    if(data.status == 200){
+                        $('.ui.tiny.modal.password').modal('hide');
+                    }else{
+                        layer.msg(data.mag);
+                    }
+
+                }
+            });
+        }
+        //图片回显:
+        function preview(file) {
+            $("#imgHidden").css("display", "none");
+            var prevDiv = document.getElementById('preview');
+            if (file.files && file.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(evt) {
+                    prevDiv.innerHTML = '<img style="width: 100px;height: 100px;" src="' + evt.target.result + '" />';
+                }
+                reader.readAsDataURL(file.files[0]);
+            } else {
+                prevDiv.innerHTML = '<div class="img" style="width: 100px;height:100px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' +
+                    file.value + '\'"></div>';
+            }
+        }
+
+        function updateFace() {
+            var $img = document.getElementById('file');
+            //获取当前图像并转换为Base64的字符串
+
+            //截取字符串
+            var imgFile = new FileReader();
+            imgFile.readAsDataURL($img.files[0]);
+
+            imgFile.onload = function () {
+                var imgBase64 = this.result.substring(23); //base64数据
+                console.log(imgBase64);
+                $.ajax({
+                    type : "POST",
+                    async : false,
+                    url : "/bj/updateFace",
+                    data : {
+                        img : imgBase64,
+                        id : userid
+                    },
+                    dataType : "JSON",
+                    success : function(data) {
+                        //返回的结果
+                        console.log(data)
+                        if(data.status == 200){
+                            $('.ui.tiny.modal.face').modal('hide');
+                            window.location.reload(true);
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+
+            }
+
+            //Ajax将Base64字符串传输到后台处理
+
+        }
+
+    </script>
+</body>
+
+</html>

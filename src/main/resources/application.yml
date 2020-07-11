@@ -1,0 +1,26 @@
+spring:
+#mysql
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/yq
+    username: root
+    password: lzq52410
+    #jpa
+  jpa:
+     hibernate:
+       ddl-auto: update
+     show-sql: true
+#server
+server:
+  port: 8082
+#  ssl:
+#    key-store: classpath:static/ssl/Tomcat/www.itlzq.cn.jks
+#    key-store-type: JKS
+#    key-store-password: um9tobnz4k
+#    enabled: true
+#log
+logging:
+  file:
+    name: log/dev/dev.log
+
+

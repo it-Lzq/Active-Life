@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head >
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>AL Note</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+    <canvas height="990" id="c_n9" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;" width="1920"></canvas>
+    <script defer src="https://files.cnblogs.com/files/jeavy/canvas-nest.min.js"></script>
+</head>
+
+<body>
+    <!-- 导航 -->
+    <nav class="ui inverted segment attached my-padding-tb" >
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="note_index.html" th:href="@{/bj/note-index}">💎首页</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteClass.html" th:href="@{/bj/type/-1}">🎉分类</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteTag.html" th:href="@{/bj/tag/-1}">👣标签</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteHome.html" th:href="@{/bj/home}">🎐归档</a>
+                <div class="right c-item item my-mobile-hide ">
+                    <form action="#" method="post" name="search" th:action="@{/bj/search}">
+                        <div class="ui icon input">
+                            <input name="query" placeholder="Search"  type="text">
+                            <i class="search link icon"  type="submit"></i>
+                        </div>
+                    </form>
+                    <div class="ui dropdown item  my-mobile-hide c-item ">
+                        <div class="text">
+                            <span th:text="${session.user.nickname}">李泽庆</span>
+                        </div>
+                        <i class="icon dropdown"></i>
+                        <div class="menu">
+                            <a class="item" href="NoteManager.html" th:href="@{/bj/notes}">🤪我的控制台</a>
+                            <a class="item" href="../login.html" th:href="@{/bj/exit}">😭退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- 汉堡 -->
+        <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+    </nav>
+    <br>
+    <br>
+
+    <!-- 中间内容 -->
+    <div class="my-container centered">
+        <div class="ui container">
+            <div class="ui  stackable">
+                <!-- 小标签 -->
+                <div class="ui segment">
+                    <div class="ui middle aligned two column grid">
+                        <div class="column">
+                            <h3 class="ui  teal header" style="font-size: 24px;">归档</h3>
+                        </div>
+                        <div class="column right aligned">
+                            共
+                            <h2 class="ui green header my-inline-block" th:text="${noteCount}"> 14</h2> 篇博客
+                        </div>
+                    </div>
+                </div>
+                <!-- 内容 -->
+                <div class="ui segment center aligned" th:if="${noteCount}==0">
+                    <a href="" th:href="@{/bj/noteRelease}">暂无笔记，前去编辑</a>
+                </div>
+                <th:block th:each="item : ${yearNoteMap}" th:if="${noteCount}!=0">
+                <h2 class="ui header center aligned" th:text="${item.key}">2020</h2>
+
+                <div class="ui fluid vertical menu">
+                    <a class="item" href="" target="_blank" th:each="note : ${item.value}"  th:href="@{/bj/note/{id}(id=${note.id})}">
+                        <span>🍃 <span th:text="${note.title}">关于可以练习的清单</span></span>
+                        <div class="  ui teal label left pointing" th:text="${#dates.format(note.updateTime,'MMMdd')}">1月01</div>
+                    </a>
+                </div>
+                </th:block>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small" style="margin-top: 300px !important;">
+        <div class="ui center aligned container">
+            <div class="ui inverted divided grid stackable">
+                <div class="four wide  column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                        </div>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">学校</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="">>---运城学院---<</a>
+                        <a class="item" href="">>---数学与信息技术学院---<</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                    <div class="ui inverted link list">
+                        <span class="item" href="">phone:15034344690</span>
+                        <span class="item" href="">QQ:905866484</span>
+                        <span class="item" href="">email:905866484@qq.com</span>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                    <div class="ui inverted link list">
+                        <span class="item">------------------------</span>
+                        <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                        <span class="item">------------------------</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+            <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+        </div>
+
+    </footer>
+    <script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="../../static/js/jhbg.js" th:src="@{/js/jhbg.js}"> </script>
+    <script>
+        $("#toggle-menu").click(function() {
+            $('.c-item').toggleClass('my-mobile-hide');
+        });
+        $('.ui.dropdown')
+            .dropdown({
+                on: 'hover'
+            });
+    </script>
+</body>
+
+</html>

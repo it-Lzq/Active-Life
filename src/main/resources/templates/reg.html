@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head >
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>笔记中心</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+</head>
+
+<body>
+<!-- 导航 -->
+<nav class="ui inverted segment attached my-padding-tb" >
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">Active Life</h2>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🥋疫情监控
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="index.html" th:href="@{/}"> 国内疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="world.html" th:href="@{/world}"> 国外疫情</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="rumor.html" th:href="@{/toRumor(page=1)}"> 警觉谣言</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    🎉丰富生活
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html"  th:href="@{/life(page=1)}"> 增加厨艺</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/toyl(page=1)}">新闻资讯</a>
+                </div>
+            </div>
+            <div class="ui dropdown item my-mobile-hide  c-item">
+                <div class="text  my-font-bigsmall">
+                    👺高效学习
+                </div>
+                <div class="menu ">
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html" th:href="@{/bj/index}"> 在线笔记</a>
+                    <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/study}"> 在线学习</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 汉堡 -->
+    <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+</nav>
+<br>
+<br><br><br><br><br>
+
+    <!-- 中间内容 -->
+    <div class="my-container centered ">
+        <div class="ui container " style="width: 50%">
+            <div class="ui middle aligned center aligned grid">
+                <div class="column">
+                    <h2 class="ui teal image header">
+                        <div class="content">
+                            个人笔记注册
+                        </div>
+                    </h2>
+                    <form class="ui large form" method="post" th:action="@{/bj/login}">
+
+                        <div class="ui stacked segment">
+                            <br>
+                            <div class="field">
+                                <div class="ui left labeled input">
+                                    <label  class="ui green basic label">昵称</label>
+                                    <input name="nickname" id="nickname" placeholder="nickname" type="text">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui left labeled input">
+                                    <label  class="ui green basic label">手机号</label>
+                                    <input name="phone" id="phone" placeholder="phone" type="text">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui left labeled input">
+                                    <label  class="ui green basic label">密码</label>
+                                    <input name="password1" id="password1" placeholder="请输入密码" type="text">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui left labeled input">
+                                    <label  class="ui green basic label">确认密码</label>
+                                    <input name="password2" id="password2" placeholder="再次输入密码" type="text">
+                                </div>
+                            </div>
+                            <div class="inline fields">
+                                <div class="ten wide field">
+                                    <input class="ui input" name="code" id="code" placeholder="验证码" type="text">
+                                </div>
+                                <div class="six wide field">
+                                    <button class="ui  teal button" type="button"  onclick="sendSms(this)">获取验证码</button>
+                                </div>
+
+                            </div>
+                            <button class="ui  teal  button" type="button" onclick="reg()">注册</button>
+                            <button class="ui  grey  button" onclick="window.history.go(-1)" type="button">返回</button>
+                        </div>
+
+                            <div class="ui error message mini"></div>
+                            <div class="ui negative mini message" th:text="${message}" th:unless="${#strings.isEmpty(message)}">
+                            </div>
+                    </form>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<br><br><br><br><br>
+
+    <!-- 底部 -->
+    <footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small "  >
+        <div class="ui center aligned container">
+            <div class="ui inverted divided grid stackable">
+                <div class="four wide  column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                    </div>
+                </div>
+            </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">学校</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="">>---运城学院---<</a>
+                        <a class="item" href="">>---数学与信息技术学院---<</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                    <div class="ui inverted link list">
+                        <span class="item" href="">phone:15034344690</span>
+                        <span class="item" href="">QQ:905866484</span>
+                        <span class="item" href="">email:905866484@qq.com</span>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                    <div class="ui inverted link list">
+                        <span class="item">------------------------</span>
+                        <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                        <span class="item">------------------------</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+            <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+        </div>
+
+    </footer>
+<script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="../static/js/layer/layer.js" th:src="@{/js/layer/layer.js}"></script>
+<script src="../../static/js/jhbg.js" th:src="@{/js/jhbg.js}"> </script>
+<script th:inline="javascript">
+
+        $("#toggle-menu").click(function() {
+            $('.c-item').toggleClass('my-mobile-hide');
+        });
+        $('.ui.dropdown')
+            .dropdown({
+                on: 'hover'
+            });
+
+
+
+        var smsButtonflag = true;
+        var nickname = document.getElementById("nickname");
+        var phone = document.getElementById("phone");
+        var password1 = document.getElementById("password1");
+        var password2 = document.getElementById("password2");
+        var smsCode = document.getElementById("code");
+        var realPhone = "";
+        var realCode = "";
+        function sendSms(span){
+            console.log(phone.value)
+            if(smsButtonflag){
+                var phoneRe = /^1(3[0-9]|47|5[012356789]|66|7[0-9]|8[0-9]|9[89])[0-9]{8}$/g;
+                if(!phoneRe.test(phone.value)){
+                    layer.msg("手机号码有误, 请检查");
+                    return;
+                }
+
+                //1.    更改按钮标记， 不允许再次点击
+                smsButtonflag = false;
+                //2.    改变样式
+                span.class = "ui grey button disabled";
+                layer.msg("请等待倒计时结束 ，再次获取");
+                var s = 30;
+
+                var iv = setInterval(function(){
+                    s--;
+                    span.innerHTML = s+"s";
+                    if(s == 0){
+                        smsButtonflag = true;
+                        clearInterval(iv);
+                        span.class = "ui teal button";
+                        span.title = "点击获取验证码";
+                        span.innerHTML = "获取验证码";
+                    }
+                },1000);
+                //3.    发送短信
+                //3.1   先转圈
+
+                $.post("/sms","phone="+phone.value,function(data){
+                    layer.closeAll();
+                    //data: {status:200|-1,msg:"发送成功|发送失败"}
+                    console.log(data.status);
+                    layer.msg(data.msg);
+                    realPhone = data.realPhone;
+                    realCode = data.realCode;
+                    console.log(data)
+
+                });
+            }
+        }
+
+        function reg(){
+            var pass1 = password1.value;
+            var pass2 = password2.value;
+            if(nickname.value == ""){
+                layer.msg("请输入昵称");return;
+            }
+            if(phone.value==""){
+                layer.msg("请输入手机号");return;
+            }
+            if(pass1 == ""){
+                layer.msg("请输入密码");return;
+            }
+            if(pass2 == ""){
+                layer.msg("请验证密码");return;
+            }
+            if(pass1 != pass2){
+                layer.msg("两次密码输入不一致");
+                return;
+            }
+            if(phone.value != realPhone){
+                layer.msg("请不要变更手机号");
+                return;
+            }
+            if(smsCode.value == ""){
+                layer.msg("请输入验证码");return;
+            }
+            if(smsCode.value != realCode){
+                layer.msg("验证码输入错误");
+                return;
+            }
+            layer.load();
+            $.post("/reg","phone="+phone.value+"&password="+pass1+"&nickname="+nickname.value,function(data){
+                layer.closeAll();
+                layer.msg(data.msg);
+                if(data.status==200){
+                    layer.msg("页面即将跳转到登录");
+                    setTimeout(function(){
+                        window.location.href="/bj";
+                    },1000);
+                }
+
+            });
+        }
+    </script>
+</body>
+
+</html>

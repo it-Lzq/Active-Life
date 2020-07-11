@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Life</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/index.css" th:href="@{/css/index.css}">
+</head>
+
+<body>
+    <!-- 导航 -->
+    <nav class="ui inverted segment attached my-padding-tb">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        🥋疫情监控
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="index.html" th:href="@{/}"> 国内疫情</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="world.html" th:href="@{/world}"> 国外疫情</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="rumor.html" th:href="@{/toRumor(page=1)}"> 警觉谣言</a>
+                    </div>
+                </div>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        🎉丰富生活
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html"  th:href="@{/life(page=1)}"> 增加厨艺</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/toyl(page=1)}">新闻资讯</a>
+                    </div>
+                </div>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        📖高效学习
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html" th:href="@{/bj/index}"> 在线笔记</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/study}"> 在线学习</a>
+                    </div>
+                </div>
+
+                <div class="right c-item item my-mobile-hide ">
+                    <form action="/country" method="post" name="search" th:action="@{/country}">
+                        <div class="ui icon input">
+                            <input name="name" placeholder="请输入国家名"   type="text">
+                            <i class="search link icon"  type="submit"></i>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- 汉堡 -->
+        <span href="#" class="ui black button my-hanbao my-mobile-show" id="toggle-menu"><span style="font-size: 30px;" class="">🍔</span></span>
+    </nav>
+    <br>
+    <br>
+
+    <!-- 中间内容 -->
+    <div class="">
+        <div class="ui container">
+            <div class="ui grid stackable">
+                <!-- 内容left -->
+                <div class="one wide column"></div>
+                <div class="fourteen wide column">
+                    <!-- 小标题 -->
+                    <div class="ui segment">
+                        <div class="column">
+                            <h3 class="ui teal header" style="font-size: 24px;">世界疫情分析</h3>
+                        </div>
+                    </div>
+                    <!-- 内容 -->
+                    <div class="ui attached  " style="background-color: ghostwhite;">
+                        <div class="ui segment" style="padding-left: 0;padding-right: 0;">
+                            <div class="ui grid stackable mobile reversed ">
+                                <div id="chinaMap" style="width: 100%;height:600px;"></div>
+                            </div>
+                        </div>
+                        <div class="ui segment  stackable">
+                            <div class="ui secondary segment red">
+                                <div class="ui two column grid">
+                                    <div id="worldT" style="width: 100%;height:500px;"></div>
+
+                                </div>
+                            </div>
+                            <div class="ui  segment secondary vertical menu fluid">
+                                <div class="column" style="font-size: 20px;">😭疫情较严重国家</div>
+                                <table class="ui single unstackable line table green">
+                                    <thead>
+                                    <tr>
+                                        <th>国家</th>
+                                        <th>现有确诊</th>
+                                        <th>累计确诊</th>
+                                        <th>累计治愈</th>
+                                        <th class="hide-phone">累计死亡</th>
+                                        <th>死亡率</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="country : ${countryList}">
+                                        <td ><a th:href="@{/country(name=${country.getProvinceName()})}" th:text="${country.getProvinceName()}"></a></td>
+                                        <td th:text="${country.getCurrentConfirmedCount() }">1000000</td>
+                                        <td th:text="${country.confirmedCount }">1000000</td>
+                                        <td th:text="${country.curedCount }">1000000</td>
+                                        <td class="hide-phone" th:text="${country.deadCount }">10000</td>
+                                        <td th:text="${country.getDeadRate()+'%'}">0.01%</td>
+                                    </tr>
+                                    <tr> </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="one wide column"></div>
+                <!-- 内容right -->
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small ">
+        <div class="ui center aligned container">
+            <div class="ui inverted divided grid stackable">
+                <div class="four wide  column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{img/wx.jpg}" style="height: 110px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">学校</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="">>---运城学院---<</a>
+                        <a class="item" href="">>---数学与信息技术学院---<</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                    <div class="ui inverted link list">
+                        <span href="" class="item">phone:15034344690</span>
+                        <span href="" class="item">QQ:905866484</span>
+                        <span href="" class="item">email:905866484@qq.com</span>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                    <div class="ui inverted link list">
+                        <span class="item">------------------------</span>
+                        <span href="#" class="item"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                        <span class="item">------------------------</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+            <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+        </div>
+
+    </footer>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="https://www.echartsjs.com/examples/vendors/echarts/echarts.min.js?_v_=1578305236132"></script>
+    <!--引入中国的地图数据js文件，引入后会自动注册地图名字和数据-->
+    <script src="https://www.echartsjs.com/examples/vendors/echarts/map/js/china.js?_v_=1578305236132"></script>
+    <script src="../../static/js/echarts.js" th:href="@{/js/echarts.js}"></script>
+    <script type="text/javascript" src="https://www.echartsjs.com/examples/vendors/echarts/map/js/world.js?_v_=1584687926098"></script>
+    <script>
+        $("#toggle-menu").click(function() {
+            $('.c-item').toggleClass('my-mobile-hide');
+        });
+        $('.ui.button.icon.circular')
+            .popup({
+            });
+        $('.ui.dropdown.item')
+            .dropdown({
+                on: 'hover'
+            });
+
+        // 基于准备好的dom，初始化echarts实例
+
+        var myChart = echarts.init(document.getElementById('chinaMap'));
+        var worldT = echarts.init(document.getElementById('worldT'));
+        //获取参数
+        fetch('http://api.tianapi.com/txapi/ncovabroad/index?key=f2955898741fd3ada950dbc138a6405b')
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                var datas = [];
+                var dataAxis = [];
+                var filterData = [];
+                var getdata = res.newslist;
+                console.log(res.newslist);
+                getdata.forEach(item => {
+                    filterData.push({
+                        name: item.provinceName,
+                        value: item.confirmedCount,
+                        curedCount: item.curedCount,
+                        deadCount: item.deadCount
+                    })
+                });
+                getdata.forEach(item => {
+                    if(item.currentConfirmedCount >=30000){
+                     datas.push(item.currentConfirmedCount);
+                     dataAxis.push(item.provinceName);
+                }
+                });
+                var yMax = 500;
+                var dataShadow = [];
+
+                for (var i = 0; i < datas.length; i++) {
+                    dataShadow.push(yMax);
+                }
+                console.log(datas);
+                console.log(dataAxis);
+
+                console.log(filterData);
+                myChart.setOption({
+                    backgroundColor: '#888888',
+                    title: {
+                        text: '世界疫情图',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        formatter: function(params) {
+                            return params.data.name + '<br/>确诊：' + params.data.value + '人<br/>治愈：' + params.data.curedCount + '人<br/>死亡：' + params.data.deadCount + '人';
+                        }
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: ['世界疫情图']
+                    },
+                    visualMap: {
+                        type: 'piecewise',
+                        splitList: [{
+                            start: 10000,
+                            end: 1000000
+                        }, {
+                            start: 5000,
+                            end: 10000
+                        }, {
+                            start: 1000,
+                            end: 5000
+                        }, {
+                            start: 500,
+                            end: 1000
+                        }, {
+                            start: 200,
+                            end: 500
+                        }, {
+                            start: 0,
+                            end: 200
+                        }, ],
+                        color: ['#5475f5', '#9feaa5', '#85daef', '#74e2ca', '#e6ac53', '#9fb5ea']
+                    },
+                    roamController: {
+                        show: true,
+                        left: 'right',
+                        mapTypeControl: {
+                            'china': true
+                        }
+                    },
+                    series: [{
+                        name: '确诊数',
+                        type: 'map',
+                        map: 'world',
+                        mapType: 'world',
+                        roam: false,
+                        label: {
+                            show: false,
+                            fontSize: 10,
+                            color: '#f40',
+                            offset: [10,10]
+                        },
+                        showLegendSymbol: false,
+                        itemStyle: {
+                            // normal: {
+                            //     areaColor: 'rgba(24,65,91,0.3)',
+                            //     borderColor: '#9DDCEB',
+                            //     borderWidth: 3,
+                            //     shadowColor: '#9DDCEB',
+                            //     shadowBlur: 20
+                            // },
+                            emphasis: {
+                                areaColor: 'rgba(24,65,91,0.3)'
+                            }
+                        },
+                        data: filterData,
+                        nameMap:{
+                            'Singapore Rep.': '新加坡',
+                            'Dominican Rep.': '多米尼加',
+                            'Palestine': '巴勒斯坦',
+                            'Bahamas': '巴哈马',
+                            'Timor-Leste': '东帝汶',
+                            'Afghanistan': '阿富汗',
+                            'Guinea-Bissau': '几内亚比绍',
+                            "Côte d'Ivoire": '科特迪瓦',
+                            'Siachen Glacier': '锡亚琴冰川',
+                            "Br. Indian Ocean Ter.": '英属印度洋领土',
+                            'Angola': '安哥拉',
+                            'Albania': '阿尔巴尼亚',
+                            'United Arab Emirates': '阿联酋',
+                            'Argentina': '阿根廷',
+                            'Armenia': '亚美尼亚',
+                            'French Southern and Antarctic Lands': '法属南半球和南极领地',
+                            'Australia': '澳大利亚',
+                            'Austria': '奥地利',
+                            'Azerbaijan': '阿塞拜疆',
+                            'Burundi': '布隆迪',
+                            'Belgium': '比利时',
+                            'Benin': '贝宁',
+                            'Burkina Faso': '布基纳法索',
+                            'Bangladesh': '孟加拉国',
+                            'Bulgaria': '保加利亚',
+                            'The Bahamas': '巴哈马',
+                            'Bosnia and Herz.': '波斯尼亚和黑塞哥维那',
+                            'Belarus': '白俄罗斯',
+                            'Belize': '伯利兹',
+                            'Bermuda': '百慕大',
+                            'Bolivia': '玻利维亚',
+                            'Brazil': '巴西',
+                            'Brunei': '文莱',
+                            'Bhutan': '不丹',
+                            'Botswana': '博茨瓦纳',
+                            'Central African Rep.': '中非',
+                            'Canada': '加拿大',
+                            'Switzerland': '瑞士',
+                            'Chile': '智利',
+                            'China': '中国',
+                            'Ivory Coast': '象牙海岸',
+                            'Cameroon': '喀麦隆',
+                            'Dem. Rep. Congo': '刚果民主共和国',
+                            'Congo': '刚果',
+                            'Colombia': '哥伦比亚',
+                            'Costa Rica': '哥斯达黎加',
+                            'Cuba': '古巴',
+                            'N. Cyprus': '北塞浦路斯',
+                            'Cyprus': '塞浦路斯',
+                            'Czech Rep.': '捷克',
+                            'Germany': '德国',
+                            'Djibouti': '吉布提',
+                            'Denmark': '丹麦',
+                            'Algeria': '阿尔及利亚',
+                            'Ecuador': '厄瓜多尔',
+                            'Egypt': '埃及',
+                            'Eritrea': '厄立特里亚',
+                            'Spain': '西班牙',
+                            'Estonia': '爱沙尼亚',
+                            'Ethiopia': '埃塞俄比亚',
+                            'Finland': '芬兰',
+                            'Fiji': '斐',
+                            'Falkland Islands': '福克兰群岛',
+                            'France': '法国',
+                            'Gabon': '加蓬',
+                            'United Kingdom': '英国',
+                            'Georgia': '格鲁吉亚',
+                            'Ghana': '加纳',
+                            'Guinea': '几内亚',
+                            'Gambia': '冈比亚',
+                            'Guinea Bissau': '几内亚比绍',
+                            'Eq. Guinea': '赤道几内亚',
+                            'Greece': '希腊',
+                            'Greenland': '格陵兰',
+                            'Guatemala': '危地马拉',
+                            'French Guiana': '法属圭亚那',
+                            'Guyana': '圭亚那',
+                            'Honduras': '洪都拉斯',
+                            'Croatia': '克罗地亚',
+                            'Haiti': '海地',
+                            'Hungary': '匈牙利',
+                            'Indonesia': '印度尼西亚',
+                            'India': '印度',
+                            'Ireland': '爱尔兰',
+                            'Iran': '伊朗',
+                            'Iraq': '伊拉克',
+                            'Iceland': '冰岛',
+                            'Israel': '以色列',
+                            'Italy': '意大利',
+                            'Jamaica': '牙买加',
+                            'Jordan': '约旦',
+                            'Japan': '日本',
+                            'Kazakhstan': '哈萨克斯坦',
+                            'Kenya': '肯尼亚',
+                            'Kyrgyzstan': '吉尔吉斯斯坦',
+                            'Cambodia': '柬埔寨',
+                            'Korea': '韩国',
+                            'Kosovo': '科索沃',
+                            'Kuwait': '科威特',
+                            'Lao PDR': '老挝',
+                            'Lebanon': '黎巴嫩',
+                            'Liberia': '利比里亚',
+                            'Libya': '利比亚',
+                            'Sri Lanka': '斯里兰卡',
+                            'Lesotho': '莱索托',
+                            'Lithuania': '立陶宛',
+                            'Luxembourg': '卢森堡',
+                            'Latvia': '拉脱维亚',
+                            'Morocco': '摩洛哥',
+                            'Moldova': '摩尔多瓦',
+                            'Madagascar': '马达加斯加',
+                            'Mexico': '墨西哥',
+                            'Macedonia': '马其顿',
+                            'Mali': '马里',
+                            'Myanmar': '缅甸',
+                            'Montenegro': '黑山',
+                            'Mongolia': '蒙古',
+                            'Mozambique': '莫桑比克',
+                            'Mauritania': '毛里塔尼亚',
+                            'Malawi': '马拉维',
+                            'Malaysia': '马来西亚',
+                            'Namibia': '纳米比亚',
+                            'New Caledonia': '新喀里多尼亚',
+                            'Niger': '尼日尔',
+                            'Nigeria': '尼日利亚',
+                            'Nicaragua': '尼加拉瓜',
+                            'Netherlands': '荷兰',
+                            'Norway': '挪威',
+                            'Nepal': '尼泊尔',
+                            'New Zealand': '新西兰',
+                            'Oman': '阿曼',
+                            'Pakistan': '巴基斯坦',
+                            'Panama': '巴拿马',
+                            'Peru': '秘鲁',
+                            'Philippines': '菲律宾',
+                            'Papua New Guinea': '巴布亚新几内亚',
+                            'Poland': '波兰',
+                            'Puerto Rico': '波多黎各',
+                            'Dem. Rep. Korea': '朝鲜',
+                            'Portugal': '葡萄牙',
+                            'Paraguay': '巴拉圭',
+                            'Qatar': '卡塔尔',
+                            'Romania': '罗马尼亚',
+                            'Russia': '俄罗斯',
+                            'Rwanda': '卢旺达',
+                            'W. Sahara': '西撒哈拉',
+                            'Saudi Arabia': '沙特阿拉伯',
+                            'Sudan': '苏丹',
+                            'S. Sudan': '南苏丹',
+                            'Senegal': '塞内加尔',
+                            'Solomon Is.': '所罗门群岛',
+                            'Sierra Leone': '塞拉利昂',
+                            'El Salvador': '萨尔瓦多',
+                            'Somaliland': '索马里兰',
+                            'Somalia': '索马里',
+                            'Serbia': '塞尔维亚',
+                            'Suriname': '苏里南',
+                            'Slovakia': '斯洛伐克',
+                            'Slovenia': '斯洛文尼亚',
+                            'Sweden': '瑞典',
+                            'Swaziland': '斯威士兰',
+                            'Syria': '叙利亚',
+                            'Chad': '乍得',
+                            'Togo': '多哥',
+                            'Thailand': '泰国',
+                            'Tajikistan': '塔吉克斯坦',
+                            'Turkmenistan': '土库曼斯坦',
+                            'East Timor': '东帝汶',
+                            'Trinidad and Tobago': '特里尼达和多巴哥',
+                            'Tunisia': '突尼斯',
+                            'Turkey': '土耳其',
+                            'Tanzania': '坦桑尼亚',
+                            'Uganda': '乌干达',
+                            'Ukraine': '乌克兰',
+                            'Uruguay': '乌拉圭',
+                            'United States': '美国',
+                            'Uzbekistan': '乌兹别克斯坦',
+                            'Venezuela': '委内瑞拉',
+                            'Vietnam': '越南',
+                            'Vanuatu': '瓦努阿图',
+                            'West Bank': '西岸',
+                            'Yemen': '也门',
+                            'South Africa': '南非',
+                            'Zambia': '赞比亚',
+                            'Zimbabwe': '津巴布韦',
+                            'Comoros': '科摩罗'
+                        }
+                    }]
+                });
+                worldT.setOption({
+                    title: {
+                        text: '柱形分析图(人数3万+)',
+                    },
+                    xAxis: {
+                        data: dataAxis,
+                        type: 'category'
+                    },
+                    yAxis: {
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: '#999'
+                            }
+                        }
+                    },
+                    dataZoom: [
+                        {
+                            type: 'inside'
+                        }
+                    ],
+                    series: [
+                        { // For shadow
+                            type: 'bar',
+                            itemStyle: {
+                                color: 'rgba(255,60,0,0.05)'
+                            },
+                            barGap: '-100%',
+                            barCategoryGap: '40%',
+                            data: dataShadow,
+                            animation: false
+                        },
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                color: new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                    [
+                                        {offset: 0, color: '#83bff6'},
+                                        {offset: 0.5, color: '#188df0'},
+                                        {offset: 1, color: '#188df0'}
+                                    ]
+                                )
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    color: new echarts.graphic.LinearGradient(
+                                        0, 0, 0, 1,
+                                        [
+                                            {offset: 0, color: '#2378f7'},
+                                            {offset: 0.7, color: '#2378f7'},
+                                            {offset: 1, color: '#83bff6'}
+                                        ]
+                                    )
+                                }
+                            },
+                            data: datas
+                        }
+                    ]
+                });
+            })
+
+
+    </script>
+<!--    背景-->
+    <script>
+        ! function() {
+            function o(w, v, i) {
+                return w.getAttribute(v) || i
+            }
+
+            function j(i) {
+                return document.getElementsByTagName(i)
+            }
+
+            function l() {
+                var i = j("script"),
+                    w = i.length,
+                    v = i[w - 1];
+                return {
+                    l: w,
+                    z: o(v, "zIndex", -1),
+                    o: o(v, "opacity", 0.5),
+                    c: o(v, "color", "0,0,0"),
+                    n: o(v, "count", 199)
+                }
+            }
+
+            function k() {
+                r = u.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, n = u.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+            }
+
+            function b() {
+                e.clearRect(0, 0, r, n);
+                var w = [f].concat(t);
+                var x, v, A, B, z, y;
+                t.forEach(function(i) {
+                    i.x += i.xa, i.y += i.ya, i.xa *= i.x > r || i.x < 0 ? -1 : 1, i.ya *= i.y > n || i.y < 0 ? -1 : 1, e.fillRect(i.x - 0.5, i.y - 0.5, 1, 1);
+                    for (v = 0; v < w.length; v++) {
+                        x = w[v];
+                        if (i !== x && null !== x.x && null !== x.y) {
+                            B = i.x - x.x, z = i.y - x.y, y = B * B + z * z;
+                            y < x.max && (x === f && y >= x.max / 2 && (i.x -= 0.03 * B, i.y -= 0.03 * z), A = (x.max - y) / x.max, e.beginPath(), e.lineWidth = A / 2, e.strokeStyle = "rgba(" + s.c + "," + (A + 0.2) + ")", e.moveTo(i.x, i.y), e.lineTo(x.x, x.y), e.stroke())
+                        }
+                    }
+                    w.splice(w.indexOf(i), 1)
+                }), m(b)
+            }
+            var u = document.createElement("canvas"),
+                s = l(),
+                c = "c_n" + s.l,
+                e = u.getContext("2d"),
+                r, n, m = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(i) {
+                    window.setTimeout(i, 1000 / 45)
+                },
+                a = Math.random,
+                f = {
+                    x: null,
+                    y: null,
+                    max: 20000
+                };
+            u.id = c;
+            u.style.cssText = "position:fixed;top:0;left:0;z-index:" + s.z + ";opacity:" + s.o;
+            j("body")[0].appendChild(u);
+            k(), window.onresize = k;
+            window.onmousemove = function(i) {
+                i = i || window.event, f.x = i.clientX, f.y = i.clientY
+            }, window.onmouseout = function() {
+                f.x = null, f.y = null
+            };
+            for (var t = [], p = 0; s.n > p; p++) {
+                var h = a() * r,
+                    g = a() * n,
+                    q = 2 * a() - 1,
+                    d = 2 * a() - 1;
+                t.push({
+                    x: h,
+                    y: g,
+                    xa: q,
+                    ya: d,
+                    max: 6000
+                })
+            }
+            setTimeout(function() {
+                b()
+            }, 100)
+        }();
+    </script>
+
+</body>
+
+</html>

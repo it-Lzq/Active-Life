@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="referrer" content="no-referrer">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Life</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/index.css" th:href="@{/css/index.css}">
+</head>
+
+<body>
+    <!-- 导航 -->
+    <nav class="ui inverted segment attached my-padding-tb">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        🥋疫情监控
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="index.html" th:href="@{/}"> 国内疫情</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="world.html" th:href="@{/world}"> 国外疫情</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="rumor.html" th:href="@{/toRumor(page=1)}"> 警觉谣言</a>
+                    </div>
+                </div>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        🎉丰富生活
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html"  th:href="@{/life(page=1)}"> 增加厨艺</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/toyl(page=1)}">新闻资讯</a>
+                    </div>
+                </div>
+                <div class="ui dropdown item my-mobile-hide  c-item">
+                    <div class="text  my-font-bigsmall">
+                        📖高效学习
+                    </div>
+                    <div class="menu ">
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="../login.html" th:href="@{/bj/index}"> 在线笔记</a>
+                        <a class="item my-mobile-hide c-item my-font-bigsmall" href="#" th:href="@{/study}"> 在线学习</a>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <!-- 汉堡 -->
+        <span href="#" class="ui black button my-hanbao my-mobile-show" id="toggle-menu"><span style="font-size: 30px;" class="">🍔</span></span>
+    </nav>
+    <!-- 中间内容 -->
+    <div class="ui inverted menu attached basic grey">
+        <div class="ui my-container stackable ">
+            <div class="ui top attached tabular menu  ">
+                <a class="item "  href="yuleNews.html" th:href="@{/toyl(page=1)}">娱乐吃瓜</a>
+                <a class="item " th:href="@{/todm(page=1)}">动漫资讯</a>
+                <a class="item " th:href="@{/toys(page=1)}">影视小道</a>
+                <a class="item " href="ysNews.html" th:href="@{/togj(page=1)}">国际新闻</a>
+                <a class="item active" href="ysNews.html" th:href="@{/toly(page=1)}">旅游趣事</a>
+            </div>
+        </div>
+    </div>
+    <div class="ui my-container stackable centered">
+            <div class="ui bottom attached  segment" >
+                <div class="ui segment green">
+                    <div class="ui segment">
+                        <form class="ui form" action="/toyl" th:action="@{/todm}" method="post">
+                            <div class="ui field ">
+                                <div class="ui label" >
+                                    <label  style="font-size: 1.2em;font-weight: bold;">搜索你想要的内容</label>
+                                </div>
+                                <button class="ui  right floated  inverted green button " id="search-btn"  type="submit">
+                                    <i class="icon search"></i>搜索
+                                </button>
+                            </div>
+                            <div class="ui field">
+                                <div class="ui left labeled input">
+                                    <label class="ui compact label  green basic">旅游</label>
+                                    <div class="ui fluid input ">
+                                        <input  name="word" placeholder="请输入关键字" type="text" >
+                                        <input  name="page" type="hidden" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="ui segments red">
+                    <div class="ui secondary segment red">
+                        <div class="ui two column grid">
+                            <div class="column" style="font-size: 20px;">🎉旅游趣事</div>
+                        </div>
+                    </div>
+                    <div class="ui segment center aligned" th:if="${lyNews}==null">
+                            <div class="header">搜索结果为空</div>
+                    </div>
+                    <div class="ui segment" th:each="news :${lyNews}">
+                        <div class="ui grid stackable mobile reversed ">
+                            <div class="eleven wide column">
+                                <h3 class="ui header"><a   style="font-size: 1.2em" th:text="${news.title}" th:href="${news.url}"> Java中的List你真的会用吗？</a></h3>
+                                <div class="ui grid ">
+                                    <div class="sixteen wide column ">
+                                        <div class="ui horizontal link list">
+                                            <div class="item">
+                                                <div class="content" th:text="${news.ctime}">李泽庆</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui  segment" th:if="${lyNews}!=null">
+                        <div class="ui middle aligned two column grid">
+                            <div class="column left aligned">
+                                <a class="ui mini  button primary"  href="#"  th:href="@{/toly(page=${page}-1,word=${word})}" th:if="${page}>1">上一页</a>
+                            </div>
+                            <div class="column right aligned">
+                                <a class="ui mini  button primary" href="#" th:href="@{/toly(page=${page}+1,word=${word})}" >下一页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+    <!-- 底部 -->
+    <footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small ">
+        <div class="ui center aligned container">
+            <div class="ui inverted divided grid stackable">
+                <div class="four wide  column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                        </div>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">学校</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="">>---运城学院---<</a>
+                        <a class="item" href="">>---数学与信息技术学院---<</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                    <div class="ui inverted link list">
+                        <span href="" class="item">phone:15034344690</span>
+                        <span href="" class="item">QQ:905866484</span>
+                        <span href="" class="item">email:905866484@qq.com</span>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                    <div class="ui inverted link list">
+                        <span class="item">------------------------</span>
+                        <span href="#" class="item"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                        <span class="item">------------------------</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+            <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+        </div>
+
+    </footer>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="../../static/js/jhbg.js" th:src="@{/js/jhbg.js}"> </script>
+    <script>
+        $("#toggle-menu").click(function() {
+            $('.c-item').toggleClass('my-mobile-hide');
+        });
+        $('.ui.button.icon.circular')
+            .popup({
+            });
+        $('.ui.dropdown.item')
+            .dropdown({
+                on: 'hover'
+            });
+        $("#loveWords").click(function () {
+            $.post("/getWords",function(data){
+                $("#loveWords").text(data);
+            });
+        });
+
+        $('.menu .item')
+            .tab()
+        ;
+    </script>
+</body>
+
+</html>

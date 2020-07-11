@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head >
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>个人笔记中心</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <link href="../../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 导航 -->
+    <nav class="ui inverted segment attached my-padding-tb"  >
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item"><a th:href="@{/}">Active Life</a></h2>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="note_index.html" th:href="@{/bj/note-index}">💎首页</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteClass.html" th:href="@{/bj/type/-1}">🎉分类</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteTag.html" th:href="@{/bj/tag/-1}">👣标签</a>
+                <a class="item my-mobile-hide c-item my-font-bigsmall" href="noteHome.html" th:href="@{/bj/home}">🎐归档</a>
+                <div class="right c-item item my-mobile-hide ">
+                    <div class="ui dropdown item  my-mobile-hide c-item ">
+                        <div class="text">
+                            <span th:text="${session.user.nickname}">李泽庆</span>
+                        </div>
+                        <i class="icon dropdown"></i>
+                        <div class="menu">
+                            <a class="item" href="NoteManager.html" th:href="@{/bj/notes}">🤪我的控制台</a>
+                            <a class="item" href="../login.html" th:href="@{/bj/exit}">😭退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- 汉堡 -->
+        <span class="ui black button my-hanbao my-mobile-show" href="#" id="toggle-menu"><span class="" style="font-size: 30px;">🍔</span></span>
+    </nav>
+    <div class="ui attached menu pointing" >
+        <div class=" ui container " >
+            <div class="right menu ">
+                <a  class="item  " href="#"  th:href="@{/bj/grzx}">个人中心</a>
+                <a  class="item active " href="#"  style="font-weight: bold" th:href="@{#}">笔记列表</a>
+                <a  class="item  " href="#" th:href="@{/bj/types}">分类</a>
+                <a  class="item" href="#"  th:href="@{/bj/tags}">标签</a>
+                <a class="item teal " href="NoteRelease.html" th:href="@{/bj/noteRelease}" >记笔记</a>
+            </div>
+
+        </div>
+
+    </div>
+    <br>
+    <br>
+
+    <!-- 中间内容 -->
+    <div class="my-container centered ">
+        <div class="ui container ">
+            <div class="ui stackable  ">
+                <div class="ui success mini message" th:unless="${#strings.isEmpty(message)}" >
+                    <i class="close icon"></i>
+                    <p class="header" th:text="${message}">操作成功</p>
+                </div>
+                <div  class="ui form segment basic ">
+                    <input name="page" type="hidden">
+                    <div class=" two fields">
+                        <div class="ui input field">
+                            <input class="ui red " name="title" placeholder="标题">
+                        </div>
+                        <div class=" field">
+                            <div class="ui left labeled input">
+                                <label class="ui compact label  yellow basic">分类</label>
+                                <div class="ui fluid selection dropdown ">
+                                    <input name="typeId" type="hidden">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">错误日志</div>
+                                    <div class="menu " >
+                                        <div class="item" data-value="1" th:data-value="${type.id}" th:each="type : ${types}" th:text="${type.name}">错误日志</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui field  ">
+                        <button class="ui blue button right floated " id="search-btn" style="margin-top: 5px;margin-bottom: 10px" type="button">
+                            <i class="icon search"></i>搜索
+                        </button>
+                     </div>
+
+                </div>
+            <div id="table-container">
+                <table class="ui  table compact unstackable red"  th:fragment="noteList">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>标题</th>
+                            <th>类型</th>
+                            <th>更新时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="note,i : ${page.content}">
+                            <td th:text="${i.count}">1</td>
+                            <td th:text="${note.title}">你真的清楚list么？</td>
+                            <td th:text="${note.type.name}">认知升级</td>
+                            <td th:text="${note.updateTime}">2017-10-02 19:18</td>
+                            <td>
+                                <a class="ui  green  button my-type-font" href="" style="margin-bottom: 5px;" th:href="@{/bj/note/{id}/input(id=${note.id})}">编辑</a>
+                                <a class="ui red  button my-type-font" href="" th:href="@{/bj/note/{id}/delete(id=${note.id})}">删除</a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot >
+                        <tr>
+                            <th colspan="6">
+                                <div class="ui  pagination mini menu" th:if="${page.totalPages}>1">
+                                    <a class=" item" href="#"  onclick="page(this)" th:attr="data-page=${page.number}-1" th:unless="${page.first}">上一页</a>
+                                    <a class=" item" href="#"  onclick="page(this)" th:attr="data-page=${page.number}+1" th:unless="${page.last}">下一页</a>
+                                </div>
+                                <a class="ui my-type-font right floated basic  button" href=""  th:href="@{/bj/noteRelease}">新增</a>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <footer class="ui inverted vertical segment my-padding-shuxian my-margin-top-small " >
+        <div class="ui center aligned container">
+            <div class="ui inverted divided grid stackable">
+                <div class="four wide  column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img class="ui rounded image" src="../../static/img/wx.jpg" th:src="@{/img/wx.jpg}" style="height: 50% !important;width: 50% !important;">
+                        </div>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">学校</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="">>---运城学院---<</a>
+                        <a class="item" href="">>---数学与信息技术学院---<</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">联系我</h4>
+                    <div class="ui inverted link list">
+                        <span class="item" href="">phone:15034344690</span>
+                        <span class="item" href="">QQ:905866484</span>
+                        <span class="item" href="">email:905866484@qq.com</span>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header my-opacity-font">NotForzq</h4>
+                    <div class="ui inverted link list">
+                        <span class="item">------------------------</span>
+                        <span class="item" href="#"> 学习不仅仅是为了自己！前方不会孤单！</span>
+                        <span class="item">------------------------</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="item my-opacity-font">Welcome to Active Life, since 2020</p>
+            <p class="item my-opacity-font" href="http://www.beian.miit.gov.cn/">晋ICP备20001376号-1</p>
+        </div>
+
+    </footer>
+    <script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="../../static/js/jhbg.js" th:src="@{/js/jhbg.js}"> </script>
+    <script>
+        $("#toggle-menu").click(function() {
+            $('.c-item').toggleClass('my-mobile-hide');
+        });
+        $('.ui.dropdown')
+            .dropdown({
+                on: 'hover'
+            });
+        function page(obj){
+            $("[name='page']").val($(obj).data("page"));
+            loadData();
+        }
+        $("#search-btn").click(function () {
+            loadData();
+        });
+        function loadData(){
+
+            $("#table-container").load(/*[[@{/bj/note/search}]]*/"/bj/note/search",{
+                title : $("[name='title']").val(),
+                typeId :$("[name='typeId']").val(),
+                page :$("[name='page']").val()
+            });
+        }
+        $('.message .close').on('click',function () {
+            $(this).closest('.message').transition('fade');
+        })
+    </script>
+</body>
+
+</html>
